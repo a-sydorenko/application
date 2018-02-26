@@ -1,0 +1,16 @@
+{
+  "name": "application",
+  "version": "0.0.1",
+  "description": "highload http/https application",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git"
+  },
+  "author": "Alex Sydorenko",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {}
+}
