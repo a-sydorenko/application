@@ -20,7 +20,7 @@ describe(`Application tests`, () => {
     const options = { hostname, port: 1711, path: '/path1', method: 'POST', headers }
 
     http
-      .createServer(app.handle)
+      .createServer(app.router)
       .on('error', done)
       .listen(options.port, options.hostname, () => {
 
@@ -51,7 +51,7 @@ describe(`Application tests`, () => {
     const options = { hostname, port: 1712, path: '/path2', method: 'GET', headers }
 
     http
-      .createServer(app.handle)
+      .createServer(app.router)
       .on('error', done)
       .listen(options.port, options.hostname, () => {
 
@@ -76,7 +76,7 @@ describe(`Application tests`, () => {
     const options = { hostname, port: 1713, path: '/path3', method: 'GET', headers }
 
     http
-      .createServer(app.handle)
+      .createServer(app.router)
       .on('error', done)
       .listen(options.port, options.hostname, () => {
 
@@ -101,7 +101,7 @@ describe(`Application tests`, () => {
     const options = { hostname, port: 1714, path: '/path2', method: 'PUT', headers }
 
     http
-      .createServer(app.handle)
+      .createServer(app.router)
       .on('error', done)
       .listen(options.port, options.hostname, () => {
 

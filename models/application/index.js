@@ -11,7 +11,7 @@ class Application {
   constructor () {
 
     this.bodyParser = new BodyParser()
-    this.handle = handle.bind(this)
+    this.router = handle.bind(this)
     this.maps = {
       GET: {},
       POST: {}
