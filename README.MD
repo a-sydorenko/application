@@ -14,6 +14,6 @@ const app = new Application()
 require('./router')(app) // see tests
 
 http
-  .createServer(app.handle)
+  .createServer(app.router)
   .on('event', () => {})
 ```
