@@ -14,7 +14,9 @@ class Application {
     this.router = handle.bind(this)
     this.maps = {
       GET: {},
-      POST: {}
+      POST: {},
+      PUT: {},
+      DELETE: {}
     }
   }
 
@@ -44,6 +46,14 @@ class Application {
 
   post (path, ...middlewares) {
     this.assign('POST', path, ...middlewares)
+  }
+
+  put (path, ...middlewares) {
+    this.assign('PUT', path, ...middlewares)
+  }
+
+  ['delete'] (path, ...middlewares) {
+    this.assign('DELETE', path, ...middlewares)
   }
 
   pre (func) {
@@ -154,34 +164,44 @@ function handle (req, res) {
       break
     }
     case 'POST' : {
-
-      this.check(req, res, (err) => {
-        if (err) {
-          return this.errorHandler(err, req, res)
-        }
-
-        const body = []
-        req.on('data', (chunk) => {
-          body.push(chunk)
-        })
-
-        req.on('end', () => {
-          this.bodyParser.parse(req.headers['content-type'], Buffer.concat(body), (err, body) => {
-
-            if (err) {
-              return this.errorHandler(err, req, res)
-            }
-
-            req.body = body
-            this.defineRouteHandler(req, res)
-          })
-        })
-      })
-
+      parseRequest.call(this, req, res)
+      break
+    }
+    case 'PUT' : {
+      parseRequest.call(this, req, res)
+      break
+    }
+    case 'DELETE' : {
+      this.defineRouteHandler(req, res)
       break
     }
     default : {
       this.errorHandler(new HttpError(501, `Not implemented!`), req, res)
     }
   }
+}
+
+function parseRequest (req, res) {
+  this.check(req, res, (err) => {
+    if (err) {
+      return this.errorHandler(err, req, res)
+    }
+
+    const body = []
+    req.on('data', (chunk) => {
+      body.push(chunk)
+    })
+
+    req.on('end', () => {
+      this.bodyParser.parse(req.headers['content-type'], Buffer.concat(body), (err, body) => {
+
+        if (err) {
+          return this.errorHandler(err, req, res)
+        }
+
+        req.body = body
+        this.defineRouteHandler(req, res)
+      })
+    })
+  })
 }

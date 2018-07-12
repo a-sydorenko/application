@@ -98,7 +98,7 @@ describe(`Application tests`, () => {
   })
 
   it(`should return 501 http error`, function (done) {
-    const options = { hostname, port: 1714, path: '/path2', method: 'PUT', headers }
+    const options = { hostname, port: 1714, path: '/path2', method: 'PATCH', headers }
 
     http
       .createServer(app.router)
