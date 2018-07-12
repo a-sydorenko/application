@@ -1,14 +1,22 @@
 'use strict'
 
+const EventEmitter = require('events').EventEmitter
 const querystring = require('querystring')
 const url = require('url')
 const HttpError = require('../httpError')
 const BodyParser = require('../bodyParser')
 const { getIp } = require('../../lib')
 
-class Application {
+class Application extends EventEmitter {
 
-  constructor () {
+  /**
+   * @param {object} [options]
+   * @param {boolean} [options.pipeMode]
+   * */
+
+  constructor (options = {}) {
+    super()
+    this.parseRequest = options.pipeMode ? parseRequestPipeMode : parseRequest
 
     this.bodyParser = new BodyParser()
     this.router = handle.bind(this)
@@ -168,11 +176,11 @@ function handle (req, res) {
       break
     }
     case 'POST' : {
-      parseRequest.call(this, req, res)
+      this.parseRequest(req, res)
       break
     }
     case 'PUT' : {
-      parseRequest.call(this, req, res)
+      this.parseRequest(req, res)
       break
     }
     case 'DELETE' : {
@@ -207,5 +215,15 @@ function parseRequest (req, res) {
         this.defineRouteHandler(req, res)
       })
     })
+  })
+}
+
+function parseRequestPipeMode (req, res) {
+  this.check(req, res, (err) => {
+    if (err) {
+      return this.errorHandler(err, req, res)
+    }
+
+    this.defineRouteHandler(req, res)
   })
 }
