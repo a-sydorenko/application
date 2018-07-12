@@ -10,6 +10,13 @@ module.exports = function (app) {
     res.end()
   })
 
+  app.put('/*', m1, (req, res, next) => {
+
+    res.writeHead(200)
+    res.write(JSON.stringify({ pathname: req.url.pathname }))
+    res.end()
+  })
+
   app.get('/path2', m2, (req, res, next) => res.end())
 }
 

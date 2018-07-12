@@ -47,6 +47,37 @@ describe(`Application tests`, () => {
       })
   })
 
+  it(`should correctly define request path and return it into response`, function (done) {
+    const options = { hostname, port: 1715, path: '/path/path/path', method: 'PUT', headers }
+
+    http
+      .createServer(app.router)
+      .on('error', done)
+      .listen(options.port, options.hostname, () => {
+
+        const req = http.request(options, (res) => {
+          expect(res.statusCode).to.equal(200)
+
+          const resp = []
+          res
+            .on('data', c => resp.push(c))
+            .on('error', done)
+            .on('end', () => {
+              const response = resp.toString()
+              expect(response).to.be.a('string')
+              expect(JSON.parse(response).pathname).to.equal(options.path)
+
+              done()
+            })
+            .setEncoding('utf8')
+        })
+
+        req.on('error', done)
+        req.write(data)
+        req.end()
+      })
+  })
+
   it(`should return 403 http error`, function (done) {
     const options = { hostname, port: 1712, path: '/path2', method: 'GET', headers }
 

@@ -110,7 +110,11 @@ class Application {
 
   defineRouteHandler (req, res) {
     const targetMap = this.maps[req.method]
-    const route = targetMap[req.url.pathname] !== void 0 ? targetMap[req.url.pathname] : null
+    const route =
+      targetMap[req.url.pathname] !== void 0
+        ? targetMap[req.url.pathname]
+        : targetMap['/*'] !== void 0 ? targetMap['/*'] : null
+
     if (route === null) {
       return this.errorHandler(new HttpError(404), req, res)
     }
