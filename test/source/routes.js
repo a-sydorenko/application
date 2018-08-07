@@ -10,6 +10,12 @@ module.exports = function (app) {
     res.end()
   })
 
+  app.options('/*', (req, res, next) => {
+    res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With')
+    res.end()
+  })
+
   app.put('/*', m1, (req, res, next) => {
 
     res.writeHead(200)

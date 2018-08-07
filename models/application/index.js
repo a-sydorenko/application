@@ -24,7 +24,8 @@ class Application extends EventEmitter {
       GET: {},
       POST: {},
       PUT: {},
-      DELETE: {}
+      DELETE: {},
+      OPTIONS: {}
     }
   }
 
@@ -62,6 +63,10 @@ class Application extends EventEmitter {
 
   ['delete'] (path, ...middlewares) {
     this.assign('DELETE', path, ...middlewares)
+  }
+
+  options (path, ...middlewares) {
+    this.assign('OPTIONS', path, ...middlewares)
   }
 
   pre (func) {
@@ -184,6 +189,10 @@ function handle (req, res) {
       break
     }
     case 'DELETE' : {
+      this.defineRouteHandler(req, res)
+      break
+    }
+    case 'OPTIONS' : {
       this.defineRouteHandler(req, res)
       break
     }
