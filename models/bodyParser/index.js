@@ -5,6 +5,8 @@ const HttpError = require('../httpError')
 const m = new Map()
 m.set('application/json', parseJson)
 m.set('application/x-www-form-urlencoded', parseUrlencoded)
+m.set('text/plain', parseTextPlain)
+m.set('text/html', parseTextPlain)
 
 class BodyParser {
 
@@ -70,5 +72,13 @@ function parseUrlencoded (buffer, callback) {
     catch (e) {
       callback(new HttpError(400, `Bad request!`))
     }
+  })
+}
+
+function parseTextPlain (buffer, callback) {
+  setImmediate(() => {
+    callback(null, {
+      message: buffer.toString()
+    })
   })
 }

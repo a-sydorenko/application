@@ -1,6 +1,6 @@
 {
   "name": "application",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "highload http/https application",
   "main": "index.js",
   "scripts": {
