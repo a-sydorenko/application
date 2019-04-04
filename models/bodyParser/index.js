@@ -21,6 +21,10 @@ class BodyParser {
    * */
 
   parse (encoding, body, callback) {
+    const index = encoding.indexOf(';')
+    if (index !== -1) {
+      encoding = encoding.substring(0, index)
+    }
     setImmediate(() => {
       if (!m.has(encoding)) {
         return callback(new HttpError(415, `Unsupported Media Type: ${encoding}!`))
